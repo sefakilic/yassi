@@ -1,0 +1,38 @@
+* YASSI: Yet Another Site Search Implementation
+
+YASSI is Python module, written in C. It implements transcription factor binding
+site search on a sequence. Given a list of binding sites (motif), it builds PSSM
+(position specific scoring matrix) and scan the genome. It returns the list of
+(position, score) tuples, sorted by score.
+
+When compared with Biopython motif.search_pwm implementation, it is ~20 times faster.
+
+To use it, the first step is to compile C code. To compile it into Python module
+: gcc -shared -I/usr/include/python2.7/ -lpython2.7 -o yassi.so yassi.c
+
+The output file ~yassi.so~ can be imported just like any Python module. The available methods are
+- ~search(motif, genome, bg_prob=[0.25, 0.25, 0.25, 0.25])~ returns the list of
+  putative binding sites, each represented by a tuple which contains position and
+  PSSM score of that site.
+
+- ~build_PSSM(motif, bg_prob=[0.25, 0.25, 0.25, 0.25])~ returns the PSSM as a list of
+  columns, where each column is a list of four numbers, scores for observing an A, C,
+  G, or T, respectively. The optional parameter ~bg_prob~ is background probabilities
+  for ACGT, respectively.
+
+
+
+#+BEGIN_SRC python
+>>> import yassi
+>>> import test
+>>> motif = [test.random_site(10) for i in range(10)]
+>>> motif
+['gcatgggaaa', 'gatggcgaaa', 'tactaggaat', 'cgttatacga', 'cttcatcgcc', 'aggttcttta', 'taatcccgaa', 'cctttattaa', 'ccgtacggca', 'aatccccgag']
+>>> genome = test.random_site(50000)
+>>> genome[:20]
+'cttggccatttacgcggaaa'
+>>> putative_binding_sites = yassi.search(motif, genome)
+>>> putative_binding_sites[:5]
+[(30730, 7.682890082548839), (47223, 7.152375365850061), (24101, 7.152375365850059), (8542, 6.908843836330346), (18600, 6.84752078432164)]
+>>> 
+#+END_SRC
