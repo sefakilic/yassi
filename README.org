@@ -7,10 +7,18 @@ site search on a sequence. Given a list of binding sites (motif), it builds PSSM
 
 When compared with Biopython motif.search_pwm implementation, it is ~20 times faster.
 
-To use it, the first step is to compile C code. To compile it into Python module
-: gcc -shared -I/usr/include/python2.7/ -lpython2.7 -o yassi.so yassi.c
+To use it, the first step is to compile C code. To compile it into Python module run:
 
-The output file ~yassi.so~ can be imported just like any Python module. The available methods are
+: $ python setup.py build
+: $ sudo python setup.py install
+
+This will place YASSI on your load path so that you can import it
+into any Python script by typing:
+
+: import yassi
+
+just like any other Python module.  The available methods are:
+
 - ~search(motif, genome, bg_prob=[0.25, 0.25, 0.25, 0.25])~ returns the list of
   putative binding sites, each represented by a tuple which contains position and
   PSSM score of that site.
