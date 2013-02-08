@@ -112,6 +112,7 @@ pbs* site_search(char **sites, int num_sites, char* seq, column bg_prob, int *nu
       *num_pbs += 1;
     }
   }
+  free(PSSM);
   return putative_binding_sites;
 }
 
@@ -160,7 +161,11 @@ static PyObject* yassi_search(PyObject* self, PyObject* args) {
     tuple = Py_BuildValue("id", putative_binding_sites[i].pos, putative_binding_sites[i].score);
     PyList_SetItem(return_list, i, tuple);
   }
-  return Py_BuildValue("O", return_list);
+  free(putative_binding_sites);
+  free(sites);
+  PyObject *result = Py_BuildValue("O", return_list);
+  Py_DECREF(return_list);
+  return result;
 }
 
 static PyObject* yassi_build_PSSM(PyObject* self, PyObject* args) {
