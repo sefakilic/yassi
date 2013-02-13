@@ -5,7 +5,7 @@ site search on a sequence. Given a list of binding sites (motif), it builds PSSM
 (position specific scoring matrix) and scan the genome. It returns the list of
 (position, score) tuples, sorted by score.
 
-When compared with Biopython motif.search_pwm implementation, it is ~20 times
+When compared with Biopython motif.search_pwm implementation, it is around 20 times
 faster. (NOTE: I recently realized that Biopython has already a C implementation for
 PSSM search, which can be called within Python with ~Motif.scanPWM()~ method. Since
 it is C too, it should be fast and likely to be bug-free as it is used by lots of
