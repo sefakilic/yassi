@@ -106,11 +106,9 @@ pbs* site_search(char **sites, int num_sites, char* seq, column bg_prob, int *nu
   *num_pbs = 0;
   for (i = 0; i < num_possible_pbs; i++) {
     score = score_seq(PSSM, strlen(sites[0]), seq+i);
-    if (score > 0.0) {
-      putative_binding_sites[*num_pbs].pos = i;
-      putative_binding_sites[*num_pbs].score = score;
-      *num_pbs += 1;
-    }
+    putative_binding_sites[*num_pbs].pos = i;
+    putative_binding_sites[*num_pbs].score = score;
+    *num_pbs += 1;
   }
   free(PSSM);
   return putative_binding_sites;
